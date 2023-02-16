@@ -1,0 +1,4 @@
+1. Install both Python and Node.js on your device.
+2. Move into "flask-server" folder and run "python server.py". This begins running the backend at localhost: 5000.
+3. Move into "client" folder and run "npm start". This begins running the frontend at localhost: 3000.
+4. Load both of these localhost locations in your broswer to see the backend data and the frontend site.

@@ -1,0 +1,68 @@
+.HannouncementsContainer {
+    display: flex;
+    flex-direction: column;
+    max-width: 750px;
+    margin-left: 5px;
+    margin-bottom: 50px;
+    
+}
+
+.HannouncementsTitle {
+    background-color: #D9D9D9;
+    margin-bottom: 1px;
+    padding: 10px;
+    padding-bottom: x;
+    color: black;
+    font-size: 24px;
+    border-radius: 3px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.Hannouncements {
+    background-color: #D9D9D9;
+    color: black;
+    padding: 15px;
+    font-size: 24px;
+    border-radius: 3px;
+    min-height: 100px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}
+
+.HpagesContainer {
+    display: flex;
+    max-width: 750px;
+    margin-left: 5px;
+}
+.HpageBox {
+    display: flex;
+    flex-direction: column;
+    margin-right: 50px;
+    
+}
+
+.HpagesTitle {
+    background-color: #D9D9D9;
+    margin-bottom: 1px;
+    padding: 10px;
+    padding-bottom: x;
+    color: black;
+    font-size: 24px;
+    border-radius: 3px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    min-width: 300px;
+}
+
+.Hpages {
+    background-color: #D9D9D9;
+    color: black;
+    padding: 15px;
+    font-size: 24px;
+    border-radius: 3px;
+    min-height: 300px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    min-width: 300px;
+}

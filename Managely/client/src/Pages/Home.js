@@ -4,7 +4,19 @@ import '../Styles/HomeStyles.css'
 
 function Home() {
 
-  
+  const [data, setData] = useState([{}])
+
+  useEffect(() => {
+    fetch("/members").then(
+      res => res.json()
+    ).then(
+      data => {
+        setData(data)
+        console.log(data)
+      }
+    )
+  }, [])
+
   return (
     <div>
       <NavBar/>
@@ -27,10 +39,19 @@ function Home() {
         </div>
         <div className='HpageBox'>
           <div className='HpagesTitle'>
-            Inventory
+            Example Data
           </div>
           <div className='Hpages'>
-            Inventory table goes here
+            <div>
+      {(typeof data.members === 'undefined') ? (
+        <p>Loading...</p>
+      ) : (
+        data.members.map((member, i) => (
+          <p key={i}>{member}</p>
+        )) 
+      )}
+
+    </div>
           </div>
         </div>
 

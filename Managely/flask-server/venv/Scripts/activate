@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\brand\Documents\GitHub\Managely\Managely\flask-server\venv"
+VIRTUAL_ENV="C:\Users\Bee_Y\OneDrive\Documents\Spring 2023\CSC-490\Managely\Managely\flask-server\venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

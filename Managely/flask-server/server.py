@@ -1,16 +1,172 @@
 from flask import Flask
+from flask import request
 import pymysql
 import json
 
-app = Flask(__name__)
+#app = Flask(__name__)
 
 #Members API Route
 
 #test members route that works with react
-@app.route("/members")
-def members():
-    output = Select()
-    return {"members": output}
+# @app.route("/members")
+# def members():
+#     output = Select()
+#     return {"members": output}
+
+
+
+
+from flask import jsonify
+
+
+app = Flask(__name__)
+
+
+
+@app.route('/api/data', methods=['GET'])
+def get_data():
+    conn = pymysql.connect(
+    host='localhost',
+        user='root',
+        password="",
+        db='Managely',
+    charset='utf8mb4',
+    cursorclass=pymysql.cursors.DictCursor
+)
+    with conn.cursor() as cursor:
+        cursor.execute('SELECT * FROM employeeinfo')
+        data = cursor.fetchall()
+    return jsonify(data)
+
+@app.route('/api/data', methods=['POST'])
+def create_row():
+    conn = pymysql.connect(
+    host='localhost',
+        user='root',
+        password="",
+        db='Managely',
+    charset='utf8mb4',
+    cursorclass=pymysql.cursors.DictCursor
+)
+    new_row = request.json
+    with conn.cursor() as cursor:
+        cursor.execute('INSERT INTO employeeinfo (ID, fName, lName, gender, dateOfBirth, termInfo, salary) VALUES (%s, %s, %s, %s, %s, %s, %s)', (new_row['ID'], new_row['fName'], new_row['lName'], new_row['gender'], new_row['dateOfBirth'], new_row['termInfo'], new_row['salary']))
+        conn.commit()
+        cursor.execute('SELECT * FROM employeeinfo WHERE ID = %s', (cursor.lastrowid,))
+        data = cursor.fetchone()
+    return jsonify(data)
+
+@app.route('/api/data/<int:ID>', methods=['PUT'])
+def update_row(ID):
+    conn = pymysql.connect(
+    host='localhost',
+        user='root',
+        password="",
+        db='Managely',
+    charset='utf8mb4',
+    cursorclass=pymysql.cursors.DictCursor
+)
+    updated_row = request.json
+    with conn.cursor() as cursor:
+        cursor.execute('UPDATE employeeinfo SET fName = %s, lName = %s, gender = %s, dateOfBirth = %s, termInfo = %s, salary = %s WHERE ID = %s', (updated_row['fName'], updated_row['lName'], updated_row['gender'], updated_row['dateOfBirth'], updated_row['termInfo'], updated_row['salary'], ID))
+        conn.commit()
+        cursor.execute('SELECT * FROM employeeinfo WHERE ID = %s', (ID,))
+        data = cursor.fetchone()
+    return jsonify(data)
+
+@app.route('/api/data/<int:ID>', methods=['DELETE'])
+def delete_row(ID):
+    conn = pymysql.connect(
+    host='localhost',
+        user='root',
+        password="",
+        db='Managely',
+    charset='utf8mb4',
+    cursorclass=pymysql.cursors.DictCursor
+)
+    with conn.cursor() as cursor:
+        cursor.execute('DELETE FROM employeeinfo WHERE ID = %s', (ID,))
+        conn.commit()
+    return 'Success'
+
+
+
+
+@app.route('/api/inventory', methods=['GET'])
+def get_inventory():
+    conn = pymysql.connect(
+    host='localhost',
+        user='root',
+        password="",
+        db='Managely',
+    charset='utf8mb4',
+    cursorclass=pymysql.cursors.DictCursor
+)
+    cursor = conn.cursor(pymysql.cursors.DictCursor)
+    cursor.execute('SELECT * FROM inventory')
+    data = cursor.fetchall()
+    conn.close()
+    return jsonify(data)
+
+@app.route('/api/inventory', methods=['POST'])
+def add_inventory():
+    conn = pymysql.connect(
+    host='localhost',
+        user='root',
+        password="",
+        db='Managely',
+    charset='utf8mb4',
+    cursorclass=pymysql.cursors.DictCursor
+)
+    typeID = request.json['typeID']
+    invenID = request.json['invenID']
+    name = request.json['name']
+    brand = request.json['brand']
+    price = request.json['price']
+    amount = request.json['amount']
+    cursor = conn.cursor(pymysql.cursors.DictCursor)
+    cursor.execute('INSERT INTO inventory (typeID, invenID, name, brand, price, amount) VALUES (%s, %s, %s, %s, %s, %s)', (typeID, invenID, name, brand, price, amount))
+    conn.commit()
+    conn.close()
+    return jsonify('Inventory added successfully')
+
+@app.route('/api/inventory/<invenID>', methods=['PUT'])
+def update_inventory(invenID):
+    conn = pymysql.connect(
+    host='localhost',
+        user='root',
+        password="",
+        db='Managely',
+    charset='utf8mb4',
+    cursorclass=pymysql.cursors.DictCursor
+)
+    typeID = request.json['typeID']
+    invenID = request.json['invenID']
+    name = request.json['name']
+    brand = request.json['brand']
+    price = request.json['price']
+    amount = request.json['amount']
+    cursor = conn.cursor(pymysql.cursors.DictCursor)
+    cursor.execute('UPDATE inventory SET typeID = %s, invenID= %s, name = %s, brand = %s, price = %s, amount = %s WHERE invenID = %s', (typeID, invenID, name, brand, price, amount, invenID))
+    conn.commit()
+    conn.close()
+    return jsonify('Inventory updated successfully')
+
+@app.route('/api/inventory/<invenID>', methods=['DELETE'])
+def delete_inventory(invenID):
+    conn = pymysql.connect(
+    host='localhost',
+        user='root',
+        password="",
+        db='Managely',
+    charset='utf8mb4',
+    cursorclass=pymysql.cursors.DictCursor
+)
+    cursor = conn.cursor(pymysql.cursors.DictCursor)
+    cursor.execute('DELETE FROM inventory WHERE invenID = %s', (invenID,))
+    conn.commit()
+    conn.close()
+    return jsonify('Inventory deleted successfully')
 
 
 
@@ -18,7 +174,30 @@ def members():
 
 
 
-
+@app.route('/login', methods=['POST'])
+def login():
+    email = request.json['email']
+    password = request.json['password']
+    conn = pymysql.connect(
+    host='localhost',
+        user='root',
+        password="",
+        db='Managely',
+    charset='utf8mb4',
+    cursorclass=pymysql.cursors.DictCursor
+)
+    cursor = conn.cursor(pymysql.cursors.DictCursor)
+    cursor.execute(
+        "SELECT * FROM `login details` WHERE email=%s AND password=%s",
+        (email, password)
+    )
+    user = cursor.fetchone()
+    if user:
+        response = {'success': True}
+    else:
+        response = {'success': False}
+    conn.close()
+    return jsonify(response)
 
 
 
@@ -44,8 +223,6 @@ def Select():
     newOutput = output[0]
  #For the value i in our output = select statement print it out to console for now
     # If react references data then, it's a matter of figuring out on how to pull said data
-    for i in output:
-        print(i)
 
     print(list(newOutput))
     # To close the connection

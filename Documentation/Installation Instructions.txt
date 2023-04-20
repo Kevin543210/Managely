@@ -3,4 +3,4 @@
 3. Move into "flask-server" folder and run ".\venv\Scripts\activate".
 4. Move into "flask-server" folder and run "python server.py". This begins running the backend at localhost: 5000.
 5. Move into "client" folder and run "npm start". This begins running the frontend at localhost: 3000.
-6. Load both of these localhost locations in your broswer to see the backend data and the frontend site.
+6. Load both of these localhost locations in your browser to see the backend data and the frontend site.
